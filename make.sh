@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# Default number of scores to generate
+NUM_SCORES=${1:-1}
+
+# Create timestamped output directory
+TIMESTAMP=$(date +%Y-%m-%d-%H%M%S)
+OUTPUT_DIR="output-scores_${TIMESTAMP}"
+
+mkdir -p "output-scores_${TIMESTAMP}"
+
+# Loop to generate the specified number of scores
+for i in $(seq 1 $NUM_SCORES)
+do
+
+    # Print the current score number in red and bold.
+    echo ""
+    echo -e "\033[1;31mGenerating score $i of $NUM_SCORES...\033[0m"
+
+    # Run the Python script
+    python3 -W ignore steps.py
+
+    # Extract timestamp number from the generated score file
+    if [[ -f score.ly ]]; then
+        # Copy score.ly to output directory with unique name
+        SCORE_ID=$(grep -o 'No\. [0-9,]*' score.ly | grep -o '[0-9,]*' | tr -d ',')
+        if [[ -n "$SCORE_ID" ]]; then
+            cp score.ly "${OUTPUT_DIR}/score_${SCORE_ID}.ly"
+        else
+            cp score.ly "${OUTPUT_DIR}/score_${i}.ly"
+        fi
+
+        # Run LilyPond to produce PDF
+        lilypond --loglevel=ERROR -o "${OUTPUT_DIR}/score_${SCORE_ID%.ly}" "${OUTPUT_DIR}/score_${SCORE_ID}.ly"
+
+        echo ""
+    else
+        echo "score.ly not found, skipping LilyPond for score $i"
+
+        echo ""
+    fi
+done
+
+# Clean up generated files leaving only .pdf files.
+rm ./${OUTPUT_DIR}/*.midi
+rm ./${OUTPUT_DIR}/*.ly
+
+# Combine all PDF files into a single PDF
+# If there has only been one score generated, skip this step.
+if [ "$(ls -1q ./${OUTPUT_DIR}/*.pdf | wc -l)" -le 1 ]; then
+    echo "Only one PDF file found, skipping combination."
+    exit 0
+else
+    if command -v pdfunite &> /dev/null; then
+        echo "Combining PDF files into a single PDF..."
+        pdfunite ./${OUTPUT_DIR}/*.pdf ./${OUTPUT_DIR}/combined_score.pdf
+        echo -e "\033[31mPDF combined successfully into ./${OUTPUT_DIR}/combined_score.pdf\033[0m"
+    else
+        echo "pdfunite not found, skipping PDF combination."
+    fi
+fi
+
+# Open output directory using default file manager.
+if command -v xdg-open &> /dev/null; then
+    echo "Opening output directory using default file manager..."
+    xdg-open "${OUTPUT_DIR}" &
+else
+    echo "xdg-open not found, please open the output directory manually: ${OUTPUT_DIR}"
+fi
