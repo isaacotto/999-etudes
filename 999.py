@@ -32,13 +32,6 @@ def load_parameters_from_yaml(filename):
         "expressions": raw.get("expressions", []),
         "rest_chance": raw.get("rest_chance", []),
         "output_notes": raw.get("output_notes", []),
-        # "articulations": unpack_weighted_items(raw["articulations"])[0] if "articulations" in raw and isinstance(raw["articulations"][0], dict) else raw.get("articulations", []),
-        # "articulation_weights": unpack_weighted_items(raw["articulations"])[1] if "articulations" in raw and isinstance(raw["articulations"][0], dict) else raw.get("articulation_weights", []),
-        # "open": unpack_weighted_items(raw["open"])[0] if "open" in raw and isinstance(raw["open"][0], dict) else raw.get("open", []),
-        # "open_weights": unpack_weighted_items(raw["open"])[1] if "open" in raw and isinstance(raw["open"][0], dict) else raw.get("open_weights", []),
-        # "expressions": raw.get("expressions", []),
-        # "rest_chance": raw.get("rest_chance", []),
-        # "output_notes": raw.get("output_notes", []),
     }
 
 def midi_to_lilypond(midi_num):
@@ -170,7 +163,8 @@ def combine_ties(note_rhythm_list, articulation_list, inter_note_code=None):
 print("Writing LilyPond file...")
 def write_lilypond_file(lilypond_notes, filename='score.ly', expression=''):
     note_string = " ".join(lilypond_notes)
-    cnt = note_string.count('~')
+
+    # cnt = note_string.count('~')
     # print(f"There are {cnt} tildes")
 
     time_stamp = datetime.now().strftime("%Y%m%d%H%M%S%f")[:-3] # Current timestamp, microseconds truncated by three digits

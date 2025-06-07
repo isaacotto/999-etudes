@@ -18,6 +18,11 @@ This is a utility used to procedurally generate scores for short etudes.
 
 The intended use is in generating large batches of etudes for "999 etudes", an "improvisation simulator" centering one-time-use disposable etudes which will be conspicuously destroyed after performance.
 
+## Dependencies
+- python3
+- lilypond
+- pdfunite (for combining output .pdfs) 
+
 ## Use
 
 Running ``./generate`` without any additional parameters will generate one score, prompting the user for a template file located in ``./templates`` and a parameters file located in ``./parameters``. Additional templates and sets of parameters may be added to these folders.
