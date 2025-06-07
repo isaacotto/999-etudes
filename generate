@@ -9,8 +9,13 @@ OUTPUT_DIR="output-scores_${TIMESTAMP}"
 
 mkdir -p "output-scores_${TIMESTAMP}"
 
-# Prompt user to select a template file from all files beginning with "lilypond-template"
-TEMPLATE_FILE=$(find . -maxdepth 1 -type f -name "lilypond-template*" | fzf --prompt="Select a template file: ")
+# Prompt user to select a template file from all files beginning with "lilypond-template" in the directory "templates"
+TEMPLATE_FILE=$(find templates -maxdepth 1 -type f -name "lilypond-template*" | fzf --prompt="Select a template file: ")
+# If no template file is selected, exit the script with a message.
+if [[ -z "$TEMPLATE_FILE" ]]; then
+    echo "No template file selected, exiting."
+    exit 1
+fi
 
 # Copy chosen template file to "template_temp"
 if [[ -n "$TEMPLATE_FILE" ]]; then
@@ -20,8 +25,13 @@ else
     exit 1
 fi
 
-# Prompt user to select a parameters file from all yaml files beginning with "parameters"
-PARAMETERS_FILE=$(find . -maxdepth 1 -type f -name "parameters*.yaml" | fzf --prompt="Select a parameters file: ")
+# Prompt user to select a parameters file from all yaml files beginning with "parameters" in the directory "parameters"
+PARAMETERS_FILE=$(find parameters -maxdepth 1 -type f -name "parameters*.yaml" | fzf --prompt="Select a parameters file: ")
+# If no parameters file is selected, exit the script with a message.
+if [[ -z "$PARAMETERS_FILE" ]]; then
+    echo "No parameters file selected, exiting."
+    exit 1
+fi
 
 # Copy chosen parameters file to "parameters_temp.yaml"
 if [[ -n "$PARAMETERS_FILE" ]]; then
@@ -40,7 +50,7 @@ do
     echo -e "\033[1;31mGenerating score $i of $NUM_SCORES...\033[0m"
 
     # Run the Python script
-    python3 -W ignore steps.py
+    python3 -W ignore 999.py
 
     # Extract timestamp number from the generated score file
     if [[ -f score.ly ]]; then
@@ -75,7 +85,6 @@ rm -f template_temp
 # If there has only been one score generated, skip this step.
 if [ "$(ls -1q ./${OUTPUT_DIR}/*.pdf | wc -l)" -le 1 ]; then
     echo "Only one PDF file found, skipping combination."
-    exit 0
 else
     if command -v pdfunite &> /dev/null; then
         echo "Combining PDF files into a single PDF..."
@@ -93,3 +102,5 @@ if command -v xdg-open &> /dev/null; then
 else
     echo "xdg-open not found, please open the output directory manually: ${OUTPUT_DIR}"
 fi
+
+exit 0

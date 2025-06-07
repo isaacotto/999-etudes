@@ -20,11 +20,13 @@ The intended use is in generating large batches of etudes for "999 etudes", an "
 
 ## Use
 
-Running ``make.sh`` without any additional parameters will generate one score based on the parameters given in ``parameters.yaml``.
+Running ``./generate`` without any additional parameters will generate one score, prompting the user for a template file located in ``./templates`` and a parameters file located in ``./parameters``. Additional templates and sets of parameters may be added to these folders.
 
-To generate multiple scores with the same set of parameters, provide the desired number, e.g. ``make.sh 5``.
+To generate multiple scores with the same set of parameters, provide the desired number, e.g. ``./generate 5``.
 
 Details pertaining to score generation will be printed in the console. Each score will be generated separately in a time-stamped directory, then merged into a final pdf.
+
+To clean the project directory, run ``./clean``.
 
 ### Parameters
 
