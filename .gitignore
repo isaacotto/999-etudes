@@ -2,6 +2,7 @@
 *.pdf
 *.midi
 *.ly
+*.txt
 
 # Ignore build directories
 
