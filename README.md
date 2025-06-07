@@ -43,11 +43,11 @@ Parameters for generation are given in the included ``parameters.yaml`` file.
 | ``expressions``     | list of available tempo/expression indications             |
 
 ## .gitignore
-Output files ignored:
-*.txt
-*.midi
-*.pdf
-output-scores_*/
+- Output files ignored:
+    - *.txt
+    - *.midi
+    - *.pdf
+    - output-scores_*/
 
 
 
