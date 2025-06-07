@@ -42,6 +42,14 @@ Parameters for generation are given in the included ``parameters.yaml`` file.
 | ``open``            | list of available strings (between notes0 with weights     |
 | ``expressions``     | list of available tempo/expression indications             |
 
+## .gitignore
+Output files ignored:
+*.txt
+*.midi
+*.pdf
+output-scores_*/
+
+
 
 
 
