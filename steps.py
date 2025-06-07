@@ -200,7 +200,7 @@ def write_lilypond_file(lilypond_notes, filename='score.ly', expression=''):
     # else:
     #     print("No custom templates found, using default template.")
 
-    lilypond_template_file = 'lilypond-template-default'
+    lilypond_template_file = 'template_temp'
     with open(lilypond_template_file, 'r', encoding='utf-8') as f:
         file_contents = f.read()
 
@@ -216,7 +216,7 @@ def write_lilypond_file(lilypond_notes, filename='score.ly', expression=''):
     print(f"LilyPond score written to {filename}")
 
 def main():
-    parameter_file = 'parameters.yaml'
+    parameter_file = 'parameters_temp.yaml'
     melody_file = 'melody.txt'
     lilypond_file = 'score.ly'
 

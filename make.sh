@@ -9,6 +9,28 @@ OUTPUT_DIR="output-scores_${TIMESTAMP}"
 
 mkdir -p "output-scores_${TIMESTAMP}"
 
+# Prompt user to select a template file from all files beginning with "lilypond-template"
+TEMPLATE_FILE=$(find . -maxdepth 1 -type f -name "lilypond-template*" | fzf --prompt="Select a template file: ")
+
+# Copy chosen template file to "template_temp"
+if [[ -n "$TEMPLATE_FILE" ]]; then
+    cp "$TEMPLATE_FILE" template_temp
+else
+    echo "No template file selected, exiting."
+    exit 1
+fi
+
+# Prompt user to select a parameters file from all yaml files beginning with "parameters"
+PARAMETERS_FILE=$(find . -maxdepth 1 -type f -name "parameters*.yaml" | fzf --prompt="Select a parameters file: ")
+
+# Copy chosen parameters file to "parameters_temp.yaml"
+if [[ -n "$PARAMETERS_FILE" ]]; then
+    cp "$PARAMETERS_FILE" parameters_temp.yaml
+else
+    echo "No parameters file selected, exiting."
+    exit 1
+fi
+
 # Loop to generate the specified number of scores
 for i in $(seq 1 $NUM_SCORES)
 do
@@ -44,6 +66,10 @@ done
 # Clean up generated files leaving only .pdf files.
 rm ./${OUTPUT_DIR}/*.midi
 rm ./${OUTPUT_DIR}/*.ly
+
+# Remove the temporary files from the main directory
+rm -f parameters_temp.yaml
+rm -f template_temp
 
 # Combine all PDF files into a single PDF
 # If there has only been one score generated, skip this step.
