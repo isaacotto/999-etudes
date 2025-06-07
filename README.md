@@ -44,10 +44,10 @@ Parameters for generation are given in the included ``parameters.yaml`` file.
 
 ## .gitignore
 - Output files ignored:
-    - *.txt
-    - *.midi
-    - *.pdf
-    - output-scores_*/
+    - ``*.txt``
+    - ``*.midi``
+    - ``*.pdf``
+    - ``output-scores_*/``
 
 
 
