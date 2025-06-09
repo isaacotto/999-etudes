@@ -1,0 +1,87 @@
+\version "2.22.1"
+
+\paper {
+    #(set-paper-size "arch a")
+    }
+
+#(ly:font-config-add-directory "~/.local/share/fonts/")
+
+date = #(strftime "%Y . %m . %d . %H . %M . %S" (localtime (current-time)))
+
+%%% Insert custom graphics from drawing.eps and call it with epsAtBfour
+
+% Define the stencil as a Scheme function
+#(define (custom-notehead-stencil grob)
+   (grob-interpret-markup grob
+     #{ \markup \epsfile #0.5 #3 #"drawing.eps" #}))
+
+#(define (custom-notehead note)
+   #{
+     \once \override NoteHead.stencil = #custom-notehead-stencil
+     #note
+   #})
+
+% Define the EPS as a stencil and force it to be at Y-offset 0 (i.e., staff line for B4)
+epsAtBfour =
+#(define-music-function () ()
+  #{
+    \once \override TextScript.stencil = #(lambda (grob)
+      (grob-interpret-markup grob
+        #{ \markup \epsfile #0.5 #3 #"drawing.eps" #}))
+    \once \override TextScript.Y-offset = #-1.5 % Disable automatic vertical offset
+    \once \override TextScript.direction = #CENTER  % Prevent above/below bias
+    \once \override TextScript.outside-staff-priority = ##f  % Don't push it away from staff
+    \once \override TextScript.padding = #0
+    \once \hideNotes
+    b^\markup ""  % Anchor point for the .eps
+    \override Score.NonMusicalPaperColumn.padding = #10
+    \unHideNotes
+  #})
+
+% Use a music function wrapper in LilyPond syntax
+customNotehead =
+#(define-music-function (note) (ly:music?)
+   (custom-notehead note))
+
+\header {
+  title = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 10)) "transient etude" }
+  subtitle = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 4)) " No. {{num_stamp}} " \vspace #2 }
+  % subtitle = \date
+  tagline = \markup {
+    \center-column {
+        \line { \with-color #red "Thin; reedy; bright." \with-color #red \italic "Ohut; ruoko; kirkas." }
+        \line { \with-color #blue "Veiled; sombre; murky." \with-color #blue \italic "Verhottu; synkkä; hämärä." }
+        \line { "Please interpret, then discard." \italic "Ole hyvä ja tulkitse ja hylkää." }
+        }
+    }
+}
+
+\markup \vspace #1
+
+\score {
+  % \new Staff \with { instrumentName = "Instrument " } {
+  \new Staff {
+    \fixed c' {
+          \defineBarLine "[" #'("" "[" "")
+          \defineBarLine "]" #'("]" "" "")
+          \once \omit Staff.TimeSignature
+          \override Score.SpacingSpanner.strict-note-spacing = ##t
+          \override TimeSignature.transparent = ##t
+          % proportional notation based on duration
+          \set Score.proportionalNotationDuration = #(ly:make-moment 1/16)
+          \omit Score.BarLine
+          \tempo \markup { \override #'((font-name . "Futura Lt BT") (font-size . 3)) "{{expression}}" }
+      {{note_string}}\!
+      \undo \omit Score.BarLine
+      \bar "|."
+    }
+  }
+  \layout { 
+    indent = 25.0
+    \context {
+        \Score
+        \omit BarNumber
+        }
+  }
+  \midi { }
+}
