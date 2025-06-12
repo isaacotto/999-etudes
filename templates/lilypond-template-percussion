@@ -47,7 +47,12 @@ customNotehead =
   title = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 10)) "transient etude" }
   subtitle = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 4)) " No. {{num_stamp}} " \vspace #2 }
   % subtitle = \date
-  tagline = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 4)) "Please interpret this score and then discard in provided receptacle." }
+  tagline = \markup {
+    \center-column {
+        \line { \raise #0.5 \musicglyph "noteheads.s2" "= free duration and octave" " = " \italic "vapaa kesto ja oktaavi." }
+        \line { "Please interpret, then discard." \italic "Ole hyvä ja tulkitse ja hylkää." }
+        }
+    }
 }
 
 \markup \vspace #1
@@ -56,6 +61,7 @@ customNotehead =
   % \new Staff \with { instrumentName = "Instrument " } {
   \new Staff {
     \fixed c' {
+          \clef percussion
           \defineBarLine "[" #'("" "[" "")
           \defineBarLine "]" #'("]" "" "")
           \once \omit Staff.TimeSignature
@@ -65,7 +71,6 @@ customNotehead =
           \set Score.proportionalNotationDuration = #(ly:make-moment 1/16)
           \omit Score.BarLine
           \tempo \markup { \override #'((font-name . "Futura Lt BT") (font-size . 3)) "{{expression}}" }
-          \clef vapercussion
           \override Staff.StaffSymbol.line-count = #1 \omit Accidental \override NoteHead.no-ledgers = ##t
       {{note_string}}\!
       \undo \omit Score.BarLine

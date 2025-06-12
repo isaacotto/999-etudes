@@ -21,6 +21,21 @@ date = #(strftime "%Y . %m . %d . %H . %M . %S" (localtime (current-time)))
      #note
    #})
 
+% Function to force accidentals but not naturals
+#(define (force-accidentals-but-not-naturals context)
+   (define (custom-accidental grob)
+     (let* ((acc (ly:grob-property grob 'alteration)))
+       (if (and acc (not (= acc 0)))
+           (ly:grob-set-property! grob 'forced? #t))))
+   (lambda (context)
+     (for-each
+      (lambda (prop)
+        (let ((callback
+               (lambda (grob)
+                 (custom-accidental grob))))
+          (ly:context-pushpop-property! context 'after-line-breaking-callbacks callback))))
+     #f))
+
 % Define the EPS as a stencil and force it to be at Y-offset 0 (i.e., staff line for B4)
 epsAtBfour =
 #(define-music-function () ()
@@ -47,7 +62,14 @@ customNotehead =
   title = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 10)) "transient etude" }
   subtitle = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 4)) " No. {{num_stamp}} " \vspace #2 }
   % subtitle = \date
-  tagline = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 4)) "Please interpret this score and then discard in provided receptacle." }
+  tagline = \markup {
+    \center-column {
+        \line { \with-color #red "Thin; reedy; bright." \with-color #red \italic "Ohut; ruoko; kirkas." }
+        \line { \with-color #blue "Veiled; sombre; murky." \with-color #blue \italic "Verhottu; synkkä; hämärä." }
+        \line { \raise #0.5 \musicglyph "noteheads.s2" "= free duration" " = " \italic "vapaa kesto." }
+        \line { "Please interpret, then discard." \italic "Ole hyvä ja tulkitse ja hylkää." }
+        }
+    }
 }
 
 \markup \vspace #1
@@ -74,6 +96,9 @@ customNotehead =
     indent = 25.0
     \context {
         \Score
+          \override AccidentalSuggestion.outside-staff-priority = ##f
+          \accidentalStyle modern-cautionary
+          \consists #force-accidentals-but-not-naturals
         \omit BarNumber
         }
   }
