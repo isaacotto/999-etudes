@@ -2,6 +2,7 @@
 
 \paper {
     #(set-paper-size "arch a")
+    page-breaking = #ly:minimal-breaking
     }
 
 #(ly:font-config-add-directory "~/.local/share/fonts/")

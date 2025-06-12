@@ -1,7 +1,7 @@
 # This file contains parameters for generating melodies using the LilyPond music engraving system.
 
 # Total number of notes in each score
-output_notes: [128]
+output_notes: [99]
 
 # Ordered lists of available pitches which will form each melody.
 # Additional lists may be added for random selection following the pattern below.

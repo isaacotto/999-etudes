@@ -3,6 +3,7 @@
 *.midi
 *.ly
 *.txt
+*.tar.gz
 
 # Ignore build directories
 

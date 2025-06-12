@@ -2,6 +2,7 @@
 
 \paper {
     #(set-paper-size "arch a")
+    page-breaking = #ly:minimal-breaking
     }
 
 #(ly:font-config-add-directory "~/.local/share/fonts/")
@@ -59,11 +60,11 @@ customNotehead =
    (custom-notehead note))
 
 \header {
-  title = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 10)) "transient etude = ohimenevä etydi" }
+  title = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 8)) "transient etude = ohimenevä etydi" }
   subtitle = \markup {
     \column{
       \center-align \override #'((font-name . "Futura Lt BT") (font-size . 3)) " for the purpose of simulating improvisation " 
-      \center-align \concat { \override #'((font-name . "Futura Lt BT") (font-size . 3)) " No. {{num_stamp}} " \vspace #2 }
+      \center-align \concat { \override #'((font-name . "Futura Lt BT") (font-size . 2)) " No. {{num_stamp}} " \vspace #0.5 }
         }
     }
   % subtitle = \date
