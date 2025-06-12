@@ -8,12 +8,12 @@ import yaml
 
 PITCH_CLASSES = ['c', 'cis', 'd', 'ees', 'e', 'f', 'fis', 'g', 'gis', 'a', 'bes', 'b']
 
-
-print("Loading parameters from YAML...")
-
 def load_parameters_from_yaml(filename):
     with open(filename, 'r') as file:
         raw = yaml.safe_load(file)
+
+    # Print file name of parameters file.
+    print(f"Parameters loaded from: {filename}")
 
     # Unpack pitch_sets (can be flat or nested)
     pitch_sets = {k: v for k, v in raw.items() if k.lower().startswith("pitches")}
@@ -107,9 +107,9 @@ def generate_inbetween_code(open_directives: List[str], weights: Optional[List[f
 
 # print("Inserting rests...")
 def insert_rests(pitches, rhythms, rest_chance):
-    """
-    Randomly turn notes into rests based on rest_chance.
-    """
+    # """
+    # Randomly turn notes into rests based on rest_chance.
+    # """
     result = []
     for pitch, rhythm in zip(pitches, rhythms):
         if random.random() < rest_chance:
@@ -118,44 +118,29 @@ def insert_rests(pitches, rhythms, rest_chance):
             result.append((pitch, rhythm))
     return result
 
-# print("Combining ties...")
-def combine_ties(note_rhythm_list, articulation_list, inter_note_code=None):
+# Formatting note sequence to prevent invalid "inter-note" codes
+def format_note_sequence(note_rhythm_list, articulation_list, inter_note_code=None):
     output = []
-    prev_note = None
 
     for i, current in enumerate(note_rhythm_list):
         articulation = articulation_list[i] if articulation_list else ""
-        pitch = ""
-        rhythm = ""
-        note_string = ""
 
         if current[0] == 'rest':
             note_string = f"r{current[1]}"
-            prev_note = None
         else:
             pitch = midi_to_lilypond(current[0])
             rhythm = str(current[1])
-            note_head = f"{pitch}{rhythm}"
+            note_string = f"{pitch}{rhythm}{articulation}"
+            print(note_string, end=' ')  # Print melody note to terminal
 
-            if prev_note and prev_note[0] == current[0]:
-                # Tie: insert "~" immediately after the rhythm
-                # Modify the *previous* note instead of adding "~" here
-                if output:
-                    output[-1] = output[-1].replace(note_head, note_head + "~")
-            else:
-                note_string = f"{note_head}{articulation}"
-                prev_note = current
+        output.append(note_string)
 
-                # Print melody to terminal with line break at the end.
-                print(note_string, end=' ')
-
-        if note_string:
-            output.append(note_string)
-
-        # Insert inter-note code *between* notes (but not after the last note)
+        # Only include inter-note code if the next event is a pitched note
         if inter_note_code and i < len(note_rhythm_list) - 1:
+            next_note = note_rhythm_list[i + 1]
             code = inter_note_code[i]
-            if code:
+
+            if code and not (isinstance(next_note, tuple) and next_note[0] == 'rest'):
                 output.append(code)
 
     return output
@@ -172,27 +157,6 @@ def write_lilypond_file(lilypond_notes, filename='score.ly', expression=''):
 
     print("\n")
     print(f"Score number: {num_stamp}")
-
-    # Import lilypond template from ./lilypond-template
-    # This file should contain the basic structure of a LilyPond file
-    # with placeholders for note_string, num_stamp, and expression
-    # designated by {{note_string}}, {{num_stamp}}, and {{expression}}
-
-    # # Prompt user to choose a template file from a list drawn from all files in the current directory with the prefix lilypond-template-
-    # # If no such file exists, use the default template file lilypond-template-default
-    # import os
-    # template_files = [f for f in os.listdir('.') if f.startswith('lilypond-template-') and f.endswith('.ly')]
-    # if template_files:
-    #     print("Available LilyPond templates:")
-    #     for i, file in enumerate(template_files):
-    #         print(f"{i + 1}: {file}")
-    #     choice = input("Choose a template by number (or press Enter to use default): ")
-    #     if choice.isdigit() and 1 <= int(choice) <= len(template_files):
-    #         lilypond_template_file = template_files[int(choice) - 1]
-    #     else:
-    #         lilypond_template_file = 'lilypond-template-default'
-    # else:
-    #     print("No custom templates found, using default template.")
 
     lilypond_template_file = 'template_temp'
     with open(lilypond_template_file, 'r', encoding='utf-8') as f:
@@ -264,7 +228,7 @@ def main():
                     f.write(f"{item[0]}\n")
         print(f"Melody written to {melody_file}\n")
 
-        lilypond_notes = combine_ties(combined, articulation_sequence, inter_note_code)
+        lilypond_notes = format_note_sequence(combined, articulation_sequence, inter_note_code)
         write_lilypond_file(lilypond_notes, filename=lilypond_file, expression=chosen_expression)
 
     except Exception as e:

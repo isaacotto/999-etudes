@@ -44,13 +44,22 @@ customNotehead =
    (custom-notehead note))
 
 \header {
-  title = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 10)) "transient etude" }
-  subtitle = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 4)) " No. {{num_stamp}} " \vspace #2 }
+  title = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 10)) "transient etude = ohimenevä etydi" }
+  subtitle = \markup {
+    \column{
+      \center-align \override #'((font-name . "Futura Lt BT") (font-size . 3)) " for the purpose of simulating improvisation " 
+      \center-align \concat { \override #'((font-name . "Futura Lt BT") (font-size . 3)) " No. {{num_stamp}} " \vspace #2 }
+        }
+    }
   % subtitle = \date
   tagline = \markup {
-    \center-column {
-        \line { \raise #0.5 \musicglyph "noteheads.s2" "= free duration and octave" " = " \italic "vapaa kesto ja oktaavi." }
-        \line { "Please interpret, then discard." \italic "Ole hyvä ja tulkitse ja hylkää." }
+    \column {
+      \null % vertical spacing
+      \rounded-box \pad-markup #1
+        \center-column {
+            \line { \raise #0.5 \musicglyph "noteheads.s2" "= free duration" " = " \italic "vapaa kesto." }
+            \line { "Please interpret, then discard." \italic "Ole hyvä ja tulkitse ja hylkää." }
+            }
         }
     }
 }

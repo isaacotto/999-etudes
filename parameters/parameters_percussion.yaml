@@ -6,6 +6,8 @@ output_notes: [128]
 # Ordered lists of available pitches which will form each melody.
 # Additional lists may be added for random selection following the pattern below.
 # Lists need not be strictly in ascending order.
+
+# Only F A C E G
 pitches01: [53, 57, 60, 64, 67]
 
 # Probability values for the chance any pitch will become a rest.
@@ -15,26 +17,26 @@ rest_chance: [0.1, 0.2, 0.3]
 # Each step width is given a weight, which is the probability of it being selected.
 steps:
   - step: -3
-    weight: 0.5
+    weight: 0.2
   - step: -2
-    weight: 0.5
+    weight: 0.4
   - step: -1
     weight: 0.5
   - step: 0
-    weight: 0.5
+    weight: 1.5
   - step: 1
     weight: 0.5
   - step: 2
-    weight: 0.5
+    weight: 0.4
   - step: 3
-    weight: 0.5
+    weight: 0.2
 
 # List of available durations for each note along with their weights.
 rhythms:
   - rhythm: 1
     weight: 0.2
   - rhythm: 2
-    weight: 0.4
+    weight: 0.3
   - rhythm: 4
     weight: 0.6
   - rhythm: 8
@@ -77,10 +79,13 @@ articulations:
   - articulation: ':32'
     weight: 0.06
 
-# List of "in-betewen" materials which occur between notes, along with their weights.
+# List of "in-between" materials which occur between notes, along with their weights.
 open:
   - directive: 'none'
     weight: 1
+    # flurry
+  - directive: 'f16 c16 a,16 c16 g16 e16 g16'
+    weight: 0.00
   - directive: '\acciaccatura { c16 }'
     weight: 0.05
   - directive: '\override NoteHead.color = #red'
@@ -133,43 +138,102 @@ open:
 # List of available expressions which appear as tempo indications above the first measure.
 # These are chosen randomly for each melody.
 expressions:
-  - accidentally
-  - acutely
-  - actually
-  - always
-  - annually
-  - anxiously
-  - arrogantly
-  - awkwardly
-  - beautifully
-  - bitterly
-  - bravely
-  - briefly
-  - carefully
-  - certainly
-  - daily
-  - doubtfully
-  - easily
-  - especially
-  - exactly
-  - fairly
-  - generally
-  - helpfully
-  - honestly
-  - immediately
-  - jealously
-  - lively
-  - miserably
-  - naturally
-  - officially
-  - often
-  - politely
-  - quickly
-  - randomly
-  - rapidly
-  - regularly
-  - unfortunately
-  - usefully
-  - voluntarily
-  - wrongly
-  - zealously
+  - Animato
+  - Con brio
+  - Con fuoco
+  - Con moto
+  - Espressivo
+  - Cantabile
+  - Dolce
+  - Grazioso
+  - Giocoso
+  - Lamentoso
+  - Maestoso
+  - Misterioso
+  - Sostenuto
+  - Leggiero
+  - Marcato
+  - Tranquillo
+  - Agitato
+  - Appassionato
+  - Furioso
+  - Brillante
+  - Affettuoso
+  - Risoluto
+  - Serioso
+  - Nobilmente
+  - With vigor
+  - With energy
+  - With passion
+  - With longing
+  - With tenderness
+  - Calmly
+  - Smoothly
+  - Delicately
+  - Tenderly
+  - Boldly
+  - Lightly
+  - Majestically
+  - Mysteriously
+  - Sadly
+  - Gracefully
+  - Quietly intense
+  - Lyrically
+  - Flowing
+  - Whimsically
+  - Heroically
+  - Avec brio
+  - Avec feu
+  - Avec énergie
+  - Avec grâce
+  - Avec légèreté
+  - Avec tristesse
+  - Avec noblesse
+  - Avec douceur
+  - Avec tendresse
+  - Avec calme
+  - Avec passion
+  - Avec élévation
+  - Avec mystère
+  - Rêveusement
+  - Lentement et expressif
+  - Sombrement
+  - Noblement
+  - Vivement
+  - Douloureusement
+  - Lumineux
+  - Mit Kraft
+  - Mit Feuer
+  - Mit Ausdruck
+  - Mit Gefühl
+  - Mit Leidenschaft
+  - Mit Wärme
+  - Mit Ruhe
+  - Mit Zartheit
+  - Mit Schwung
+  - Mit Seele
+  - Lebhaft
+  - Sanft
+  - Innig
+  - Feierlich
+  - Traurig
+  - Heiter
+  - Zart
+  - Getragen
+  - Stürmisch
+  - Wehmütig
+  - Con tenerezza
+  - Con grazia
+  - Con anima
+  - Con malinconia
+  - Con calma
+  - Con tristezza
+  - Con slancio
+  - Con spirito
+  - Con delicatezza
+  - Con eleganza
+  - Con sentimento
+  - Con amore
+  - Con dignità
+  - Con melodia
+  - Con dolore
