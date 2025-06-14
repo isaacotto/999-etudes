@@ -74,9 +74,9 @@ customNotehead =
         \rounded-box \pad-markup #1
           \center-column {
               \line { \raise #0.5 \musicglyph "noteheads.s2" "= free duration" " = " \italic "vapaa kesto." }
-              \line { \with-color #red "Thin; reedy; bright." \with-color #red \italic "Ohut; ruoko; kirkas." }
-              \line { \with-color #blue "Veiled; sombre; murky." \with-color #blue \italic "Verhottu; synkkä; hämärä." }
-              \line { "Please interpret, then discard." \italic "Ole hyvä ja tulkitse ja hylkää." }
+              \line { \with-color #red "Thin; reedy; bright" " = " \with-color #red \italic "ohut; ruoko; kirkas." }
+              \line { \with-color #blue "Veiled; sombre; murky" " = " \with-color #blue \italic "verhottu; synkkä; hämärä." }
+              \line { "Please interpret, then discard" " = " \italic "ole hyvä ja tulkitse ja hylkää." }
               }
         }
     }

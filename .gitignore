@@ -1,8 +1,8 @@
 # Ignore generated files
 *.pdf
 *.midi
-*.ly
-*.txt
+score.ly
+melody.txt
 *.tar.gz
 
 # Ignore build directories

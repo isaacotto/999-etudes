@@ -9,7 +9,10 @@
     - [ ] "Easy" scores
     - [ ] "Hard" scores
 - [ ] Tweak visual appearance of scores
+- [ ] Settle on title
 - [ ] Settle on final text to be included at bottom of each score
+    - Different for each set of scores
+    - Bilingual
 
 
 ## Description
@@ -20,6 +23,8 @@ The intended use is in generating large batches of etudes for "999 etudes", an "
 
 ## Dependencies
 - python3
+    - pandas>=1.0
+    - pyyaml>=5.0
 - lilypond
 - pdfunite (for combining output .pdfs) 
 
