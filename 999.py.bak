@@ -171,65 +171,6 @@ def write_lilypond_file(lilypond_notes, filename='score.ly', expression=''):
         f.write(lilypond_template)
     print(f"LilyPond score written to {filename}")
 
-def add_slurs(note_rhythm_list, slur_chance=0.7):
-    """
-    Returns a list of slur markers (None, '(', ')') per note, to be inserted after the rhythm.
-    Slurs are only for runs of two or more consecutive notes (not rests) with the same rhythm,
-    never spanning rests or rhythm changes. Each run gets a slur with the given probability.
-    """
-    slur_marks = [None] * len(note_rhythm_list)
-    i = 0
-    while i < len(note_rhythm_list):
-        # Only begin at a note (not rest)
-        if note_rhythm_list[i][0] != 'rest':
-            rhythm = note_rhythm_list[i][1]
-            # Find run length
-            j = i
-            while (j < len(note_rhythm_list)
-                   and note_rhythm_list[j][0] != 'rest'
-                   and note_rhythm_list[j][1] == rhythm):
-                j += 1
-            run_len = j - i
-            if run_len >= 2 and random.random() < slur_chance:
-                slur_marks[i] = '('
-                slur_marks[j-1] = ')'
-            # Move to next run
-            i = j
-        else:
-            i += 1
-    return slur_marks
-
-def format_note_sequence_with_slurs(note_rhythm_list, articulation_list, slur_marks, inter_note_code=None):
-    output = []
-    for i, current in enumerate(note_rhythm_list):
-        articulation = articulation_list[i] if articulation_list else ""
-        slur = slur_marks[i] if slur_marks else None
-
-        if current[0] == 'rest':
-            note_string = f"r{current[1]}"
-        else:
-            pitch = midi_to_lilypond(current[0])
-            rhythm = str(current[1])
-            # Insert slur parens after rhythm but before articulation/etc
-            note_core = f"{pitch}{rhythm}"
-            if slur == '(':
-                note_core += '('
-            elif slur == ')':
-                note_core += ')'
-            note_string = f"{note_core}{articulation}"
-            print(note_string, end=' ')  # Print melody note to terminal
-
-        output.append(note_string)
-
-        # Only include inter-note code if the next event is a pitched note
-        if inter_note_code and i < len(note_rhythm_list) - 1:
-            next_note = note_rhythm_list[i + 1]
-            code = inter_note_code[i]
-
-            if code and not (isinstance(next_note, tuple) and next_note[0] == 'rest'):
-                output.append(code)
-    return output
-
 def main():
     parameter_file = 'parameters_temp.yaml'
     melody_file = 'melody.txt'
@@ -263,10 +204,12 @@ def main():
         print("\033[31m" + "Chosen expression: " + chosen_expression + "\033[0m")  # Red text
 
         # Selects number of output notes randomly from the list or defaults to 100
+        # num_output = int(input("Enter number of output notes: "))
         num_output = random.choice(params["output_notes"]) if params["output_notes"] else 100
         print(f"Number of output notes set to: {num_output}")
 
         # Selects rest chance randomly from the list or defaults to 0.0
+        # rest_chance = float(input("Enter probability of rest (0.0 to 1.0): "))
         rest_chance = random.choice(params["rest_chance"]) if params["rest_chance"] else 0.0
         print(f"Rest chance set to: {rest_chance}")
 
@@ -283,11 +226,7 @@ def main():
                     f.write(f"{item[0]}\n")
         print(f"Melody written to {melody_file}\n")
 
-        # ---- SLUR LOGIC ADDED HERE ----
-        slur_marks = add_slurs(combined, slur_chance=1)  # Set your probability here
-        lilypond_notes = format_note_sequence_with_slurs(combined, articulation_sequence, slur_marks, inter_note_code)
-        # --------------------------------
-
+        lilypond_notes = format_note_sequence(combined, articulation_sequence, inter_note_code)
         write_lilypond_file(lilypond_notes, filename=lilypond_file, expression=chosen_expression)
 
     except Exception as e:
