@@ -14,7 +14,6 @@
     - Different for each set of scores
     - Bilingual
 
-
 ## Description
 
 This is a utility used to procedurally generate scores for short etudes.

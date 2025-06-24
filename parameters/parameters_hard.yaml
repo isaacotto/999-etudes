@@ -118,9 +118,6 @@ open:
     weight: 0
   - directive: '\set fontSize = -6'
     weight: 0
-  - directive: |
-      \stopStaff \resetRelativeOctave c'' \once \undo \omit Score.BarLine \bar "[" \omit Accidental \override NoteHead.transparent = ##t \override Stem.transparent = ##t g8 g  \once \override TextScript.extra-offset = #''(0 . -2) g^"directive"g g \once \undo \omit Score.BarLine \bar "]" \undo \override NoteHead.transparent = ##t \undo \override Stem.transparent = ##t \undo \omit Accidental \startStaff
-    weight: 0
   - directive: '\epsAtBfour'
     weight: 0
   - directive: '\omit Stem \omit Flag \omit Beam'
@@ -128,7 +125,7 @@ open:
   - directive: '\undo \omit Stem \undo \omit Flag \undo \omit Beam'
     weight: 0.1
   - directive: |
-      \stopStaff \resetRelativeOctave c'' \once \undo \omit Score.BarLine \bar "[" \omit Accidental \override NoteHead.transparent = ##t \override Stem.transparent = ##t b8 b { b -\tweak staff-padding #''() -\tweak outside-staff-priority ##f -\tweak whiteout ##t _\markup \center-align "(directive)" } b b \once \undo \omit Score.BarLine \bar "]" \undo \override NoteHead.transparent = ##t \undo \override Stem.transparent = ##t \undo \omit Accidental \startStaff
+      \stopStaff \resetRelativeOctave c'' \once \undo \omit Score.BarLine \bar "[" \omit Accidental \override NoteHead.transparent = ##t \override Stem.transparent = ##t b8 b { b -\tweak staff-padding #''() -\tweak outside-staff-priority ##f -\tweak whiteout ##t \tweak Y-offset #0.25 -\markup \center-align "(open)" } b b \once \undo \omit Score.BarLine \bar "]" \undo \override NoteHead.transparent = ##t \undo \override Stem.transparent = ##t \undo \omit Accidental \startStaff
     weight: 0
   - directive: |
       \stopStaff \resetRelativeOctave c'' \once \undo \omit Score.BarLine \bar "[" \omit Accidental \override NoteHead.transparent = ##t \override Stem.transparent = ##t b8  \epsAtBfour \hideNotes b \once \undo \omit Score.BarLine \bar "]" \undo \override NoteHead.transparent = ##t \undo \override Stem.transparent = ##t \undo \omit Accidental \unHideNotes \startStaff
