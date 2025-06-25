@@ -60,22 +60,25 @@ customNotehead =
    (custom-notehead note))
 
 \header {
-  title = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 10)) "transient etude = ohimenevä etydi" }
+  arranger = \markup { "Isaac Otto" }
+  title = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 8)) "Transience = Ohimenevä"}
+  % Add vertical space between title and subtitle
   subtitle = \markup {
     \column{
-      \center-align \override #'((font-name . "Futura Lt BT") (font-size . 3)) " for the purpose of simulating improvisation " 
-      \center-align \concat { \override #'((font-name . "Futura Lt BT") (font-size . 3)) " No. {{num_stamp}} " \vspace #2 }
-        }
+      \vspace #1 % Adjust value as needed for space between title and subtitle
+      \center-align \concat { \override #'((font-name . "Futura Lt BT") (font-size . 3)) " No. {{num_stamp}} " }
+      \vspace #1
     }
-  % subtitle = \date
+  }
+  meter = \markup { \bold "{{expression}}"}
   tagline = \markup {
     \column{
       \null
         \rounded-box \pad-markup #1
           \center-column {
-              \line { \raise #0.5 \musicglyph "noteheads.s2" "= free duration" " = " \italic "vapaa kesto." }
               \line { \with-color #red "Thin; reedy; bright" " = " \with-color #red \italic "ohut; ruoko; kirkas." }
               \line { \with-color #(x11-color 'CornflowerBlue) "Veiled; sombre; murky" " = " \with-color #(x11-color 'CornflowerBlue) \italic "verhottu; synkkä; hämärä." }
+              \line { \raise #0.5 \musicglyph "noteheads.s2" "= open duration and octave" " = " \italic "vapaa kesto ja oktaavi." }
               \line { "Please interpret, then discard" " = " \italic "ole hyvä ja tulkitse ja hylkää." }
               }
         }
@@ -96,7 +99,6 @@ customNotehead =
           % proportional notation based on duration
           \set Score.proportionalNotationDuration = #(ly:make-moment 1/16)
           \omit Score.BarLine
-          \tempo \markup { \override #'((font-name . "Futura Lt BT") (font-size . 3)) "{{expression}}" }
       {{note_string}}\!
       \undo \omit Score.BarLine
       \bar "|."

@@ -150,7 +150,7 @@ def write_lilypond_file(lilypond_notes, filename='score.ly', expression=''):
     # cnt = note_string.count('~')
     # print(f"There are {cnt} tildes")
 
-    time_stamp = datetime.now().strftime("%Y%m%d%H%M%S%f")[:-3] # Current timestamp, microseconds truncated by three digits
+    time_stamp = datetime.now().strftime("%y%m%d%H%M%S%f")[:-5] # Current timestamp, microseconds truncated by three digits
     num_stamp = (format (int(time_stamp), ',d'))
 
     print("\n")
