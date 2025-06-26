@@ -62,7 +62,7 @@ customNotehead =
 
 \header {
   arranger = \markup { "Isaac Otto" }
-  title = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 8)) "Transience = Ohimenevä"}
+  title = \markup { \override #'((font-name . "Futura Lt BT") (font-size . 8)) "Transience = "  \override #'((font-name . "Futura Lt BT Italic") (font-size . 8)) "Ohimenevä"}
   % Add vertical space between title and subtitle
   subtitle = \markup {
     \column{

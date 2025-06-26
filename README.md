@@ -21,11 +21,17 @@ This is a utility used to procedurally generate scores for short etudes.
 The intended use is in generating large batches of etudes for "999 etudes", an "improvisation simulator" centering one-time-use disposable etudes which will be conspicuously destroyed after performance.
 
 ## Dependencies
+
+### Utilities
 - python3
     - pandas>=1.0
     - pyyaml>=5.0
 - lilypond
 - pdfunite (for combining output .pdfs) 
+
+### Fonts
+- Futura Lt BT
+- Futura Lt BT Italic
 
 ## Use
 

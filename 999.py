@@ -32,7 +32,8 @@ def load_parameters_from_yaml(filename):
         "expressions": raw.get("expressions", []),
         "rest_chance": raw.get("rest_chance", []),
         "output_notes": raw.get("output_notes", []),
-    }
+        }
+
 
 def midi_to_lilypond(midi_num):
     pitch_class = PITCH_CLASSES[midi_num % 12]
